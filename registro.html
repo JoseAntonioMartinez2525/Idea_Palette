@@ -4,9 +4,49 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/createUser.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    </style>
     <title>Registro</title>
 </head>
 <body>
-    
+    <main>
+        <img src="./img/img.png" class="img">
+    </main>
+    <section>
+        <div class="login">Registro De Usuario</div>
+        <form id="loginForm" method="POST" action="home.html">
+            <label for="email" class="email_label">Correo Electrónico</label>
+            <input type="text" id="email" name="Introduce tu correo electrónico" required>
+                    
+            <label for="contraseña" class="password_label">Pasword:</label>
+            <input type="password" id="password" name="Introduce tu password" required>
+            <button type="submit" class="login_bt">Iniciar sesión</button>
+        </form>
+        
+        <label for="text" class="sign">¿No tienes cuenta?</label>
+        <a class="register" href="registro.html">Registrate</a>
+        
+    </section>
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();            validarCampos();
+        });
+
+        function validarCampos() {
+            var correo = document.getElementById("email").value;
+            var contraseña = document.getElementById("password").value;
+            if (correo === "" || contraseña === "") {
+                alert("Debe completar los campos de correo electrónico y contraseña.");
+            } else {
+                redirigir();
+            }
+        }
+
+        function redirigir() {
+            window.location.href = "home.html";
+        }
+    </script>
 </body>
 </html>

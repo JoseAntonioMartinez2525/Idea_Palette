@@ -1,0 +1,267 @@
+body{
+    margin: 0px;
+    background-color: #000000;
+}
+
+/* img 1 */
+.img {
+
+position: absolute;
+width: 635px;
+height: 1024px;
+left: 0px;
+top: 0px;
+
+}
+
+.login{
+    /* Inicio de sesión */
+
+position: absolute;
+width: 35%;
+height: 34px;
+left: 743px;
+top: 110px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 800;
+font-size: 32px;
+line-height: 39px;
+
+color: #FFFFFF;
+
+border: 1px solid #000000;
+
+}
+.login_Text{
+/* Inicio de sesión */
+
+position: absolute;
+width: 267px;
+height: 34px;
+left: 743px;
+top: 110px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 800;
+font-size: 32px;
+line-height: 39px;
+
+color: #FFFFFF;
+
+border: 1px solid #000000;
+}
+
+.password_label{
+/* Password */
+
+position: absolute;
+width: 121px;
+height: 40px;
+left: 743px;
+top: 418px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 29px;
+
+color: #FFFFFF;
+}
+
+#password{
+ /* Rectangle 3 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 503px;
+height: 61px;
+left: 723px;
+top: 471px;
+
+background: rgba(196, 196, 196, 0.1);
+border: 3px solid #A448FF;
+border-radius: 10px;  
+color: #FFFFFF; 
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 29px;
+}
+
+button{
+ /* Rectangle 4 */
+
+position: absolute;
+width: 503px;
+height: 63px;
+left: 723px;
+top: 613px;
+color: #FFFFFF;
+background: linear-gradient(90deg, #A448FF -3.78%, #DA48FF 86.08%);
+border-radius: 10px;   
+}
+
+
+.password_text{
+ /* Introduce tu password */
+
+position: absolute;
+width: 267px;
+height: 31px;
+left: 743px;
+top: 501px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 29px;
+
+color: #C4C4C4;
+   
+}
+
+
+
+.login_bt_text button {
+    /* Iniciar sesión */
+
+position: absolute;
+width: 243px;
+height: 28px;
+left: 888px;
+top: 630px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 29px;
+
+color: #FFFFFF;
+}
+
+.sign{
+ /* ¿No tienes cuenta? */
+
+position: absolute;
+width: 234px;
+height: 29px;
+left: 750px;
+top: 719px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 29px;
+/* identical to box height */
+text-align: center;
+
+color: #FFFFFF;   
+}
+
+
+
+.register{
+ /* Regístrate */
+
+position: absolute;
+width: 163px;
+height: 29px;
+left: 1010px;
+top: 719px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 800;
+font-size: 24px;
+line-height: 29px;
+/* identical to box height */
+text-align: center;
+
+color: #FFFFFF;   
+}
+
+
+
+.email_label{/* Correo electrónico */
+
+position: absolute;
+width: 473px;
+height: 40px;
+left: 740px;
+top: 242px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 29px;
+
+color: #FFFFFF;
+}
+
+
+
+#email{
+ /* Rectangle 2 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 503px;
+height: 61px;
+left: 720px;
+top: 302px;
+
+background: rgba(196, 196, 196, 0.1);
+border: 3px solid #A448FF;
+border-radius: 10px;
+color: #FFFFFF; 
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 29px;
+   
+}
+
+.icon{
+/* Vector */
+
+position: absolute;
+left: 82.15%;
+right: 15.97%;
+top: 31.45%;
+bottom: 65.72%;
+
+background: #DA48FF;    
+}
+
+
+.email_text{
+/* Introduce tu correo electrónico */
+
+position: absolute;
+width: 457px;
+height: 22px;
+left: 740px;
+top: 325px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 29px;
+
+color: #C4C4C4;    
+}
+
+
