@@ -33,12 +33,27 @@
       let startX, startY;
       let endX, endY;
       let dragging = false;
-
+      function figure(type){
+        switch (type) {
+          case 'rect':
+            console.log('El kilogramo de naranjas cuesta $0.59.');
+          break; 
+          case 'circle':
+            console.log('El kilogramo de manzanas cuesta $0.32.');
+          break;
+          case 'line':
+            console.log('El kilogramo de platanos cuesta $0.48.');
+          break;
+          case 'lyrics':
+            console.log('El kilogramo de cerezas cuesta $3.00.');
+          break;
+        }
+      }
       function setup() {
         createCanvas(1100, 400);
         background(220);
       }
-
+//inicio dibujar linea
       function draw() {
         if (dragging) {
           background(220);
@@ -46,7 +61,7 @@
           line(startX, startY, mouseX, mouseY);
         }
       }
-
+// fin dibujar linea
       function mousePressed() {
         startX = mouseX;
         startY = mouseY;
