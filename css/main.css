@@ -1,5 +1,9 @@
 #option-list img{
+<<<<<<< HEAD
 	max-width:20px;
+=======
+	max-width:35px;
+>>>>>>> 409f79b9e60f36ef26371eae73d5951fb5de3351
 	margin-right: 10%;
 	margin-left: 30%;
 }
@@ -7,6 +11,7 @@
 	background-color: #58a3e5;
 	cursor: pointer;
 }
+<<<<<<< HEAD
 #option-list li button {
 	border: none;
 	background-color: white;
@@ -22,6 +27,8 @@ button:focus {
 	outline: none;
 	border-color: white !important;
 }
+=======
+>>>>>>> 409f79b9e60f36ef26371eae73d5951fb5de3351
 
 #figure{
 	background-color: white;
@@ -39,7 +46,10 @@ button:focus {
 	
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 409f79b9e60f36ef26371eae73d5951fb5de3351
 #fill-color{
 	height: 14px;
 	width: 14px;
@@ -59,5 +69,8 @@ button:focus {
 	background-color: rgba(255, 255, 255, 0.8);
 	color: black;
 }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 409f79b9e60f36ef26371eae73d5951fb5de3351
