@@ -5,4 +5,41 @@
 }
 #option-list :hover{
 	background-color: #58a3e5;
+	cursor: pointer;
+}
+
+#figure{
+	background-color: white;
+	border-color: transparent;
+	outline: none;
+	width: 100%;
+		margin-bottom: 5px;
+
+	
+}
+#figure :hover{
+	cursor: pointer;
+	background-color: white;
+
+	
+}
+
+#fill-color{
+	height: 14px;
+	width: 14px;
+}
+#fill-color:checked ~ label{
+	text-decoration: underline;
+}
+
+
+#textoGenerado {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	padding: 10px;
+	background-color: rgba(255, 255, 255, 0.8);
+	color: black;
 }
