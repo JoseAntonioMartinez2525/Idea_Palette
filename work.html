@@ -5,8 +5,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="./js/rect.js"></script>
+  <script src="./js/linea.js"></script>
   <link rel="stylesheet" href="./css/main.css">
-  <script src="./js/figuras.js"></script>
+
   <style>
     body {
       display: flex;
@@ -25,182 +27,194 @@
 <body>
   <div class="mr-4">
     <ul id="option-list">
-      
-      <button id="figure" onclick="selectTool('rect')"><li class="list-group-item ">
-        <img src="img/software-shape-rectangle_98272.png" id="rect-tool">
-        Rectángulo
-    </li></button>
-    <button id="figure">
-      <li class="list-group-item "><img src="img/ellipse_icon-icons.com_54003.png">Ellipse</li>
-</button>
-    <button id="figure" onclick="selectTool('line')">
-      <li class="list-group-item "><img src="img/straight-horizontal-line_icon-icons.com_74237.png" id="line-tool">Línea</li>
-</button>
-    <button id="figure">
-      <li class="list-group-item "><input type="checkbox" id="fill-color" onchange="generarTexto()"><label
-          for="fill-color">Relleno</label></li>
-    </button>
-    <button id="figure">
-      <li class="list-group-item "><img src="img/rename_inputtext_thetext_1544.png">Fuente</li>
-    </button>
-    <button id="figure">
-      <li class="list-group-item "><img src="img/1491254405-plusaddmoredetail_82972.png" id="nuevo">Nueva</li>
-    </button>
-    <button id="figure">
       <li class="list-group-item">
-        <img src="img/save.png">Guardar
+        <button onclick="selectTool('rect')">
+          <img src="img/software-shape-rectangle_98272.png" id="rect-tool">
+          Rectángulo
+        </button>
       </li>
-    </button>
+      <li class="list-group-item">
+        <button onclick="selectTool('circle')">
+          <img src="img/ellipse_icon-icons.com_54003.png">Ellipse
+        </button>
+      </li>
+      <li class="list-group-item">
+        <button onclick="selectTool('line')">
+          <img src="img/straight-horizontal-line_icon-icons.com_74237.png" id="line-tool">Línea
+        </button>
+      </li>
+      <li class="list-group-item">
+        <button>
+          <input type="checkbox" id="fill-color" onchange="generarTexto()"><label for="fill-color">Relleno</label>
+        </button>
+      </li>
+      <li class="list-group-item">
+        <button>
+          <img src="img/rename_inputtext_thetext_1544.png">Fuente
+        </button>
+      </li>
+      <li class="list-group-item">
+        <button>
+          <img src="img/1491254405-plusaddmoredetail_82972.png" id="nuevo">Nueva
+        </button>
+      </li>
+      <li class="list-group-item">
+        <button>
+          <img src="img/save.png">Guardar
+        </button>
+      </li>
     </ul>
   </div>
   <div id="textoGenerado"></div>
-  
-<script>
-let startX, startY;
-let endX, endY;
-let dragging = false;
-let selectedTool;
-let rectanglesArray = [];
-let linesArray = []; // Array para almacenar las líneas dibujadas
-let selectedColor = 0;
 
-function selectTool(tool) {
-  selectedTool = tool;
-}
+  <script>
+    let startX, startY;
+    let endX, endY;
+    let dragging = false;
+    let selectedTool;
+    let rectanglesArray = [];
+    let linesArray = []; // Array para almacenar las líneas dibujadas
+    let newFiguresArray = []; 
+    let selectedColor = 0;
 
-  function figure(type) {
-    switch (type) {
-      case 'rect':
-        let width = endX - startX;
-        let height = endY - startY;
-
-        if (width !== 0 && height !== 0) {
-          let newRect = new CustomRectangle(startX, startY, width, height);
-          newRect.color = selectedColor;
-          rectanglesArray.push(newRect);
-          newRect.display();
-        }
-        break;
-      case 'circle':
-        // Código para dibujar una elipse
-        break;
-      case 'line':
-        background(220); // Limpiar el canvas
-        stroke(0);
-        line(startX, startY, endX, endY); // Dibujar la línea
-
-        let newLine = new CustomLine(startX, startY, endX, endY, selectedColor);
-        linesArray.push(newLine); // Almacenar la línea en el array
-        newLine.display();
-
-        updateStrokeColor(); // Aplicar el color de trazo a la línea
-        break;
-      case 'lyrics':
-        // Código para dibujar algo relacionado con letras
-        break;
+    function selectTool(tool) {
+      selectedTool = tool;
     }
-  }
 
+    function setup() {
+      createCanvas(1100, 400);
+      originalBackgroundColor = color(220);
 
-function setup() {
-  createCanvas(1100, 400);
-  background(220);
+      let rectTool = document.getElementById("rect-tool");
+      rectTool.addEventListener("click", function () {
+        selectTool('rect');
+      });
 
-  let rectTool = document.getElementById("rect-tool");
-  rectTool.addEventListener("click", function () {
-    figure('rect');
-  });
+      let lineTool = document.getElementById("line-tool");
+      lineTool.addEventListener("click", function () {
+        selectTool('line');
+      });
+    }
 
-  let lineTool = document.getElementById("line-tool");
-  lineTool.addEventListener("click", function () {
-    figure('line');
-  });
-}
-
-function draw() {
-  if (dragging) {
+  function draw() {
     background(220);
 
+    // Dibujar las líneas
+    for (let line of linesArray) {
+      line.display();
+    }
+
+    // Dibujar las figuras rectangulares
     for (let rect of rectanglesArray) {
       rect.display();
     }
 
+    // Dibujar las nuevas figuras
+    for (let newFigure of newFiguresArray) {
+      newFigure.display();
+    }
+
+    // Dibujar la línea actual si se está arrastrando
     if (dragging && selectedTool === "line") {
       stroke(0);
       line(startX, startY, mouseX, mouseY);
     }
 
+    // Dibujar el rectángulo actual si se está arrastrando
     if (dragging && selectedTool === "rect") {
       noFill();
       stroke(0);
       rect(startX, startY, mouseX - startX, mouseY - startY);
     }
   }
-}
 
-function mousePressed() {
-  startX = mouseX;
-  startY = mouseY;
-  dragging = true;
-}
+  function mouseReleased() {
+    // ...
 
-function mouseReleased() {
-  endX = mouseX;
-  endY = mouseY;
-  dragging = false;
+    if (selectedTool === "rect") {
+      let width = endX - startX;
+      let height = endY - startY;
 
-  if (selectedTool === "rect") {
-    let width = endX - startX;
-    let height = endY - startY;
-
-    if (width !== 0 && height !== 0) {
-      let newRect = new CustomRectangle(startX, startY, width, height, selectedColor);
-      rectanglesArray.push(newRect);
+      if (width !== 0 && height !== 0) {
+        let newRect = new CustomRectangle(startX, startY, width, height, selectedColor);
+        newFiguresArray.push(newRect);
+      }
     }
 
     if (selectedTool === "line") {
       let newLine = new CustomLine(startX, startY, endX, endY, selectedColor);
-      linesArray.push(newLine);
+      newFiguresArray.push(newLine);
     }
-    
   }
-}
 
-function generarTexto() {
-  var checkbox = document.getElementById("fill-color");
-  var elemento = document.getElementById("textoGenerado");
 
-  if (checkbox.checked) {
-    var labelColor = document.createElement("label");
-    labelColor.textContent = "Escoge el Color ";
+    function mousePressed() {
+      startX = mouseX;
+      startY = mouseY;
+      dragging = true;
+    }
 
-    var inputColor = document.createElement("input");
-    inputColor.type = "color";
+    function mouseReleased() {
+      endX = mouseX;
+      endY = mouseY;
+      dragging = false;
 
-    labelColor.style.marginRight = "10px";
+      if (selectedTool === "rect") {
+        let width = endX - startX;
+        let height = endY - startY;
 
-    inputColor.addEventListener("input", function () {
-      selectedColor = inputColor.value;
-      updateStrokeColor();
-    });
+        if (width !== 0 && height !== 0) {
+          let newRect = new CustomRectangle(startX, startY, width, height, selectedColor);
+          rectanglesArray.push(newRect);
+        }
+      }
 
-    elemento.appendChild(labelColor);
-    elemento.appendChild(inputColor);
-  } else {
-    elemento.innerHTML = "";
-    selectedColor = 0;
-    updateStrokeColor();
-  }
-}
+      if (selectedTool === "line") {
+        let newLine = new CustomLine(startX, startY, endX, endY, selectedColor);
+        linesArray.push(newLine);
+      }
+    }
 
-function updateStrokeColor() {
-  for (let rect of rectanglesArray) {
-    rect.setStrokeColor(selectedColor);
-  }
-}
-</script>
+    function generarTexto() {
+      var checkbox = document.getElementById("fill-color");
+      var elemento = document.getElementById("textoGenerado");
 
+      if (checkbox.checked) {
+        var labelColor = document.createElement("label");
+        labelColor.textContent = "Escoge el Color ";
+
+        var inputColor = document.createElement("input");
+        inputColor.type = "color";
+
+        labelColor.style.marginRight = "10px";
+
+        inputColor.addEventListener("input", function () {
+          selectedColor = inputColor.value;
+          updateStrokeColor();
+        });
+
+        elemento.appendChild(labelColor);
+        elemento.appendChild(inputColor);
+      } else {
+        elemento.innerHTML = "";
+        selectedColor = 0;
+        updateStrokeColor();
+      }
+    }
+
+    function updateStrokeColor() {
+      for (let rect of rectanglesArray) {
+        if (selectedColor === 0) {
+          rect.setStrokeColor(originalBackgroundColor);
+        } else {
+          rect.setStrokeColor(selectedColor);
+        }
+      }
+    }
+
+    // Iniciar la aplicación p5.js
+    new p5();
+  </script>
 </body>
 
 </html>
-
