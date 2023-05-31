@@ -175,7 +175,7 @@ a {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  color: #212529;
+  color: #ffffff;
 }
 
 .emoji {
@@ -195,7 +195,7 @@ a {
   -ms-flex-align: center;
   align-items: center;
   border-radius: 100px;
-  background-color: #dbe4ff;
+  background-color: transparent;
   font-size: 14px;
 }
 
@@ -557,8 +557,8 @@ a {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(hsla(0, 0%, 100%, 0)));
-  background-image: linear-gradient(180deg, #fff, hsla(0, 0%, 100%, 0));
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#900ce9), to(hsla(0, 0%, 100%, 0)));
+  background-image: linear-gradient(180deg, #6a46a5, hsla(0, 0%, 100%, 0));
 }
 
 .buffer {
