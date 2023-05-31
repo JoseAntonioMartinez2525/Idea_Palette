@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,21 +9,40 @@
     <link rel="stylesheet" href="./css/home.css">
     <script src="./js/figuras.js"></script>
 </head>
+
 <body>
     <div class="container">
         <section class="tools">
             <div class="row">
                 <label class="title">Mis Proyectos</label>
-            <ul class="opciones">
-                <li class="opcion">
-                    <img src="./icons/rectangle.svg" alt="">
-                </li>
-            </ul>
+                <ul class="opciones">
+                    <li class="opcion">
+                        <img src="./icons/rectangle.svg" alt="">
+                    </li>
+                </ul>
             </div>
         </section>
         <section class="dibujar">
 
         </section>
     </div>
+
+    <div class="slide-card">
+        <!-- Aquí puedes colocar las imágenes de los proyectos recientes -->
+    </div>
+
+    <div class="menu-plegable">
+        <ul>
+            <li><a href="work.html">Crear nuevo proyecto</a></li>
+            <li><a href="#" onclick="mostrarProyectos()">Ver Proyectos</a></li>
+        </ul>
+    </div>
+
+    <script>
+        function mostrarProyectos() {
+            // Aquí puedes agregar la lógica para mostrar los proyectos guardados desde work.html
+        }
+    </script>
 </body>
+
 </html>
