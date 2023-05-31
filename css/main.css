@@ -1,12 +1,14 @@
-#option-list img{
-	max-width:20px;
+#option-list img {
+	max-width: 20px;
 	margin-right: 10%;
 	margin-left: 30%;
 }
-#option-list :hover{
+
+#option-list :hover {
 	background-color: #58a3e5;
 	cursor: pointer;
 }
+
 #option-list li button {
 	border: none;
 	background-color: white;
@@ -23,30 +25,27 @@ button:focus {
 	border-color: white !important;
 }
 
-#figure{
+#figure {
 	background-color: white;
 	border-color: transparent;
 	outline: none;
 	width: 100%;
-		margin-bottom: 5px;
-
-	
+	margin-bottom: 5px;
 }
-#figure :hover{
+
+#figure :hover {
 	cursor: pointer;
 	background-color: white;
-
-	
 }
 
-#fill-color{
+#fill-color {
 	height: 14px;
 	width: 14px;
 }
-#fill-color:checked ~ label{
+
+#fill-color:checked~label {
 	text-decoration: underline;
 }
-
 
 #textoGenerado {
 	position: absolute;
@@ -58,5 +57,10 @@ button:focus {
 	background-color: rgba(255, 255, 255, 0.8);
 	color: black;
 }
+
+.custom-option-list {
+	/* Agrega estilos personalizados para el option-list dentro de la sección principal */
+}
+
 
 
