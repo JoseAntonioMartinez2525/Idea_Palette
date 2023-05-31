@@ -7,6 +7,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
   <script src="./js/rect.js"></script>
   <script src="./js/linea.js"></script>
+  <script src="./js/elipse.js"></script>
+  <script src="./js/texto.js"></script>
   <link rel="stylesheet" href="./css/main.css">
 
   <style>
@@ -35,7 +37,7 @@
       </li>
       <li class="list-group-item">
         <button onclick="selectTool('circle')">
-          <img src="img/ellipse_icon-icons.com_54003.png">Ellipse
+          <img src="img/ellipse_icon-icons.com_54003.png" id="elipse-tool">Elipse
         </button>
       </li>
       <li class="list-group-item">
@@ -49,20 +51,21 @@
         </button>
       </li>
       <li class="list-group-item">
-        <button>
-          <img src="img/rename_inputtext_thetext_1544.png">Fuente
+        <button onclick="crearTexto('text')">
+          <img src="img/rename_inputtext_thetext_1544.png" id="text-tool"">Texto
         </button>
       </li>
       <li class="list-group-item">
-        <button>
-          <img src="img/1491254405-plusaddmoredetail_82972.png" id="nuevo">Nueva
-        </button>
+        <button onclick="nuevo()">
+          <img src="img/1491254405-plusaddmoredetail_82972.png" id="nuevo">
+        Nuevo</button>
       </li>
-      <li class="list-group-item">
-        <button>
-          <img src="img/save.png">Guardar
-        </button>
+      <li class="list-group-item">     
+    <button onclick="guardar()">
+      <img src="img/save.png">
+      Guardar</button>
       </li>
+
     </ul>
   </div>
   <div id="textoGenerado"></div>
@@ -74,16 +77,19 @@
     let selectedTool;
     let rectanglesArray = [];
     let linesArray = []; // Array para almacenar las líneas dibujadas
-    let newFiguresArray = []; 
+    let ellipsesArray = []; // Array para almacenar las elipses dibujadas
+    let textosArray = [];
+    let inputText;
     let selectedColor = 0;
 
     function selectTool(tool) {
       selectedTool = tool;
+      
     }
 
     function setup() {
-      createCanvas(1100, 400);
-      originalBackgroundColor = color(220);
+      let canvas = createCanvas(800, 600);
+      canvas.parent("canvas-container");
 
       let rectTool = document.getElementById("rect-tool");
       rectTool.addEventListener("click", function () {
@@ -94,64 +100,65 @@
       lineTool.addEventListener("click", function () {
         selectTool('line');
       });
+
+      let elipseTool = document.getElementById("elipse-tool");
+      elipseTool.addEventListener("click", function () {
+        selectTool('circle');
+      });
     }
 
-  function draw() {
-    background(220);
+    function draw() {
+      background(220);
 
-    // Dibujar las líneas
-    for (let line of linesArray) {
-      line.display();
-    }
-
-    // Dibujar las figuras rectangulares
-    for (let rect of rectanglesArray) {
-      rect.display();
-    }
-
-    // Dibujar las nuevas figuras
-    for (let newFigure of newFiguresArray) {
-      newFigure.display();
-    }
-
-    // Dibujar la línea actual si se está arrastrando
-    if (dragging && selectedTool === "line") {
-      stroke(0);
-      line(startX, startY, mouseX, mouseY);
-    }
-
-    // Dibujar el rectángulo actual si se está arrastrando
-    if (dragging && selectedTool === "rect") {
-      noFill();
-      stroke(0);
-      rect(startX, startY, mouseX - startX, mouseY - startY);
-    }
-  }
-
-  function mouseReleased() {
-    // ...
-
-    if (selectedTool === "rect") {
-      let width = endX - startX;
-      let height = endY - startY;
-
-      if (width !== 0 && height !== 0) {
-        let newRect = new CustomRectangle(startX, startY, width, height, selectedColor);
-        newFiguresArray.push(newRect);
+      // Dibujar las líneas
+      for (let line of linesArray) {
+        line.display();
       }
-    }
 
-    if (selectedTool === "line") {
-      let newLine = new CustomLine(startX, startY, endX, endY, selectedColor);
-      newFiguresArray.push(newLine);
-    }
-  }
+      // Dibujar los rectángulos
+      for (let rect of rectanglesArray) {
+        rect.display();
+      }
 
+      // Dibujar las elipses
+      for (let ellipse of ellipsesArray) {
+        ellipse.display();
+      }
 
-    function mousePressed() {
-      startX = mouseX;
-      startY = mouseY;
-      dragging = true;
+      // Dibujar los textos
+      for (let texto of textosArray) {
+        texto.display();
+      }
+
+      // Dibujar la línea actual si se está arrastrando
+      if (dragging && selectedTool === "line") {
+        stroke(0);
+        line(startX, startY, mouseX, mouseY);
+      }
+
+      // Dibujar el rectángulo actual si se está arrastrando
+      if (dragging && selectedTool === "rect") {
+        noFill();
+        stroke(0);
+        rect(startX, startY, mouseX - startX, mouseY - startY);
+      }
+
+      // Dibujar la elipse actual si se está arrastrando
+      if (dragging && selectedTool === "circle") {
+        noFill();
+        stroke(0);
+        let radius = dist(startX, startY, mouseX, mouseY);
+        let diameter = radius * 2;
+        ellipse(startX, startY, diameter, diameter);
+      }
+
+        // Dibujar el texto actual si se está arrastrando
+      if (dragging && selectedTool === "text") {
+        noStroke();
+        fill(selectedColor);
+        textSize(20);
+        text(currentText, startX, startY);
+      }
     }
 
     function mouseReleased() {
@@ -173,6 +180,25 @@
         let newLine = new CustomLine(startX, startY, endX, endY, selectedColor);
         linesArray.push(newLine);
       }
+
+      if (selectedTool === "circle") {
+        let radius = dist(startX, startY, endX, endY);
+        let diameter = radius * 2;
+        let newEllipse = new CustomEllipse(startX, startY, diameter, diameter, selectedColor);
+        ellipsesArray.push(newEllipse);
+      }
+
+      if (selectedTool === "text") {
+        let newTexto = new CustomTexto(currentText, startX, startY, selectedColor);
+        textosArray.push(newTexto);
+        currentText = ""; // Reiniciar el texto actual
+      }
+    }
+
+    function mousePressed() {
+      startX = mouseX;
+      startY = mouseY;
+      dragging = true;
     }
 
     function generarTexto() {
@@ -204,17 +230,103 @@
 
     function updateStrokeColor() {
       for (let rect of rectanglesArray) {
-        if (selectedColor === 0) {
-          rect.setStrokeColor(originalBackgroundColor);
-        } else {
-          rect.setStrokeColor(selectedColor);
-        }
+        rect.strokeColor = selectedColor;
+      }
+
+      for (let line of linesArray) {
+        line.strokeColor = selectedColor;
+      }
+
+      for (let ellipse of ellipsesArray) {
+        ellipse.strokeColor = selectedColor;
+      }
+
+      for (let texto of textosArray) {
+        texto.strokeColor = selectedColor;
       }
     }
 
-    // Iniciar la aplicación p5.js
-    new p5();
+    function guardar() {
+      let contenido = JSON.stringify({
+        rectangles: rectanglesArray,
+        lines: linesArray,
+        ellipses: ellipsesArray,
+        texts: textosArray
+      });
+
+      // Aquí puedes hacer algo con el contenido JSON, como enviarlo al servidor o guardarlo en un archivo.
+
+      console.log(contenido);
+    }
+
+    function nuevo() {
+      rectanglesArray = [];
+      linesArray = [];
+      ellipsesArray = [];
+      textosArray = [];
+    }
+
+  function crearTexto() {
+    let startX, startY;
+    selectedTool = "text"; // Establecer la herramienta seleccionada en "text"
+    currentText = ""; // Reiniciar el texto actual al crear uno nuevo
+    function handleMouseMove(event) {
+      let currentX = event.clientX;
+      let currentY = event.clientY;
+      let width = currentX - startX;
+      let height = currentY - startY;
+
+      textarea.style.width = width + "px";
+      textarea.style.height = height + "px";
+    }
+
+    function handleMouseUp(event) {
+      endX = event.clientX;
+      endY = event.clientY;
+      textarea.removeEventListener("mousemove", handleMouseMove);
+      textarea.removeEventListener("mouseup", handleMouseUp);
+      textarea.style.width = Math.abs(endX - startX) + "px";
+      textarea.style.height = Math.abs(endY - startY) + "px";
+
+      if (endX !== startX && endY !== startY) {
+        let texto = textarea.value;
+        let x = endX - canvasContainer.offsetLeft;
+        let y = endY - canvasContainer.offsetTop;
+        let newTexto = new CustomTexto(texto, x, y, selectedColor);
+        textosArray.push(newTexto);
+      }
+
+      textarea.parentNode.removeChild(textarea);
+    }
+
+    let textarea = document.createElement("textarea");
+    textarea.style.position = "absolute";
+    textarea.style.left = mouseX + "px";
+    textarea.style.top = mouseY + "px";
+    textarea.style.resize = "none";
+    textarea.style.border = "1px solid black";
+    textarea.style.background = "transparent";
+    textarea.style.color = "#000";
+
+    textarea.addEventListener("mousedown", function (event) {
+      startX = event.clientX;
+      startY = event.clientY;
+
+      textarea.addEventListener("mousemove", handleMouseMove);
+      textarea.addEventListener("mouseup", handleMouseUp);
+    });
+
+    let canvasContainer = document.getElementById("canvas-container");
+    canvasContainer.appendChild(textarea);
+    textarea.focus();
+  }
+
+
   </script>
+
+
+  <div id="canvas-container"></div>
+
 </body>
 
 </html>
