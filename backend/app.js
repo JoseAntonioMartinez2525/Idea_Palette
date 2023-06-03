@@ -7,20 +7,11 @@ app.use(express.static(path.join(__dirname, "../")));
 
 const drawings = [];
 
-app.post("/save-svg", (req, res) => {
-  const svgData = req.body.svgData;
-  const fileName = "saved-drawing.svg";
 
-  fs.writeFile(fileName, svgData, (err) => {
-    if (err) {
-      console.error("Error saving SVG:", err);
-      res.status(500).send("Error saving SVG");
-    } else {
-      console.log("SVG saved successfully");
-      drawings.push(fileName);
-      res.sendStatus(200);
-    }
-  });
+app.post("/guardar-datos", (req, res) => {
+  const datos = req.body;
+  drawings.push(datos); // Agregar los datos al ArrayList
+  res.sendStatus(200); // Enviar una respuesta exitosa al cliente
 });
 
 app.get("/saved-drawing/:fileName", (req, res) => {

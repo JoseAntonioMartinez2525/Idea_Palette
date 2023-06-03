@@ -12,6 +12,7 @@
   <script src="./js/elipse.js"></script>
   <script src="./js/texto.js"></script>
   <link rel="stylesheet" href="./css/main.css">
+  <script src="https://kit.fontawesome.com/e72e299160.js" crossorigin="anonymous"></script>
 
   <style>
     body {
@@ -85,7 +86,7 @@
 <div class="sidebar">
   <div>
     <div class="logo">🎨 Idea Palette</div>
-    <img src="profile-pic.jpg" alt="Profile Picture" class="profile-pic">
+    <i class="fa-regular fa-circle-user"></i>
     <ul>
       <li><a href="home.html">Mis Proyectos</a></li>
       <li><a href="landing_page.html">Cerrar sesión</a></li>
@@ -323,7 +324,6 @@
 
       console.log(contenido);
 
-      
     }
 
     function nuevo() {
@@ -387,39 +387,6 @@
     canvasContainer.appendChild(textarea);
     textarea.focus();
   }
-
-  //captura el dibujo del usuario en el lienzo y lo convierte a SVG
-  function captureDrawing() {
-      html2canvas(document.getElementById("canvas-container")).then(function (canvas) {
-        var svgData = canvas.toDataURL("image/svg+xml");
-        saveSVG(svgData);
-      });
-    }
-    //enviar los datos SVG al servidor y guardarlos como un archivo SVG
-    function saveSVG(svgData) {
-        fetch("/save-svg", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ svgData: svgData }),
-        })
-          .then(function (response) {
-            if (response.ok) {
-              console.log("SVG saved successfully");
-              // Redirige a la página de visualización de dibujos guardados
-              window.location.href = "/saved-drawing.html";
-            } else {
-              console.error("Error saving SVG:", response.statusText);
-              // Maneja el error adecuadamente
-            }
-          })
-          .catch(function (error) {
-            console.error("Error saving SVG:", error);
-            // Maneja el error adecuadamente
-          });
-      }
-
 
 
   </script>
