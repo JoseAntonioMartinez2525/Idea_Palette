@@ -1,18 +1,11 @@
 const express = require("express");
 const app = express();
-const fs = require("fs");
 const path = require("path");
 
 app.use(express.json());
-
-const drawings = [];
-
-
-// Configurar el middleware para servir archivos estáticos
 app.use(express.static(path.join(__dirname, "../")));
 
-// Configurar el middleware para servir archivos CSS desde la carpeta "css"
-app.use("/css", express.static(path.join(__dirname, "../css")));
+const drawings = [];
 
 app.post("/save-svg", (req, res) => {
   const svgData = req.body.svgData;
