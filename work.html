@@ -6,6 +6,7 @@
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js"></script> 
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <script src="./js/rect.js"></script>
   <script src="./js/linea.js"></script>
   <script src="./js/elipse.js"></script>
@@ -386,6 +387,39 @@
     canvasContainer.appendChild(textarea);
     textarea.focus();
   }
+
+  //captura el dibujo del usuario en el lienzo y lo convierte a SVG
+  function captureDrawing() {
+      html2canvas(document.getElementById("canvas-container")).then(function (canvas) {
+        var svgData = canvas.toDataURL("image/svg+xml");
+        saveSVG(svgData);
+      });
+    }
+    //enviar los datos SVG al servidor y guardarlos como un archivo SVG
+    function saveSVG(svgData) {
+        fetch("/save-svg", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ svgData: svgData }),
+        })
+          .then(function (response) {
+            if (response.ok) {
+              console.log("SVG saved successfully");
+              // Redirige a la página de visualización de dibujos guardados
+              window.location.href = "/saved-drawing.html";
+            } else {
+              console.error("Error saving SVG:", response.statusText);
+              // Maneja el error adecuadamente
+            }
+          })
+          .catch(function (error) {
+            console.error("Error saving SVG:", error);
+            // Maneja el error adecuadamente
+          });
+      }
+
 
 
   </script>

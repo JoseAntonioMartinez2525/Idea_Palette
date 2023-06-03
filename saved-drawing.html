@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Saved Drawing</title>
+</head>
+
+<body>
+    <div>
+        <h1>Your Saved Drawing</h1>
+        <img id="drawing-image" src="" alt="Saved Drawing" />
+    </div>
+
+    <script>
+        // Obtiene el nombre del archivo SVG de la URL
+        const fileName = window.location.pathname.split("/").pop();
+
+        // Establece la propiedad src del elemento img con el nombre del archivo
+        const drawingImage = document.getElementById("drawing-image");
+        drawingImage.src = fileName;
+    </script>
+</body>
+
+</html>
