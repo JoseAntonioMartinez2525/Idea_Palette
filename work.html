@@ -13,73 +13,6 @@
   <script src="./js/texto.js"></script>
   <link rel="stylesheet" href="./css/main.css">
   <script src="https://kit.fontawesome.com/e72e299160.js" crossorigin="anonymous"></script>
-
-  <style>
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0;
-      padding-top: 5%;
-    }
-
-    canvas {
-      border: 1px solid black;
-    }
-
-    .main-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0;
-      padding-top: 5%;
-    }
-
-    .canvas-container {
-      border: 1px solid black;
-    }
-
-    .sidebar {
-      width: 200px;
-      height: 100vh;
-      background-color: #f8f9fa;
-      position: fixed;
-      left: 0;
-      top: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 20px;
-    }
-
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .sidebar li {
-      margin-bottom: 10px;
-    }
-
-    .sidebar a {
-      color: black;
-      text-decoration: none;
-    }
-
-    .sidebar .logo {
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
-
-    .sidebar .profile-pic {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-  </style>
 </head>
 
 <body>
@@ -324,6 +257,7 @@
 
       console.log(contenido);
 
+      
     }
 
     function nuevo() {
@@ -334,59 +268,70 @@
     }
 
   function crearTexto() {
-    let startX, startY;
     selectedTool = "text"; // Establecer la herramienta seleccionada en "text"
     currentText = ""; // Reiniciar el texto actual al crear uno nuevo
-    function handleMouseMove(event) {
-      let currentX = event.clientX;
-      let currentY = event.clientY;
-      let width = currentX - startX;
-      let height = currentY - startY;
 
-      textarea.style.width = width + "px";
-      textarea.style.height = height + "px";
-    }
+    let isDragging = false;
+    let offset = { x: 0, y: 0 };
+
 
     function handleMouseUp(event) {
       endX = event.clientX;
       endY = event.clientY;
-      textarea.removeEventListener("mousemove", handleMouseMove);
-      textarea.removeEventListener("mouseup", handleMouseUp);
-      textarea.style.width = Math.abs(endX - startX) + "px";
-      textarea.style.height = Math.abs(endY - startY) + "px";
 
       if (endX !== startX && endY !== startY) {
         let texto = textarea.value;
-        let x = endX - canvasContainer.offsetLeft;
-        let y = endY - canvasContainer.offsetTop;
+        let x = endX;
+        let y = endY;
         let newTexto = new CustomTexto(texto, x, y, selectedColor);
         textosArray.push(newTexto);
       }
 
+      isDragging = false;
       textarea.parentNode.removeChild(textarea);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    }
+
+        function handleMouseDown(event) {
+      startX = event.clientX;
+      startY = event.clientY;
+
+      textarea.style.left = startX + "px";
+      textarea.style.top = startY + "px";
+
+      isDragging = true;
+          offset.x = event.clientX - parseInt(textarea.style.left);
+          offset.y = event.clientY - parseInt(textarea.style.top);
+
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    }
+
+   function handleMouseMove(event) {
+      if (isDragging) {
+        let x = event.clientX - offset.x;
+        let y = event.clientY - offset.y;
+        textarea.style.left = x + "px";
+        textarea.style.top = y + "px";
+      }
     }
 
     let textarea = document.createElement("textarea");
-    textarea.style.position = "absolute";
-    textarea.style.left = mouseX + "px";
-    textarea.style.top = mouseY + "px";
+    textarea.style.position = "absolute"; // Establecer la posición como "absolute"
+    textarea.style.left = "0";
+    textarea.style.top = "0";
     textarea.style.resize = "none";
     textarea.style.border = "1px solid black";
     textarea.style.background = "transparent";
     textarea.style.color = "#000";
 
-    textarea.addEventListener("mousedown", function (event) {
-      startX = event.clientX;
-      startY = event.clientY;
-
-      textarea.addEventListener("mousemove", handleMouseMove);
-      textarea.addEventListener("mouseup", handleMouseUp);
-    });
-
     let canvasContainer = document.getElementById("canvas-container");
     canvasContainer.appendChild(textarea);
     textarea.focus();
+    textarea.addEventListener("mousedown", handleMouseDown);
   }
+
 
 
   </script>
