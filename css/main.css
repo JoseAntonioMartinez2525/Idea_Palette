@@ -125,3 +125,12 @@ button:focus {
 #canvas-container{
 	position: relative;
 }
+
+#param-list {
+  	list-style-type: none;
+  	padding: 0;
+	width: 200px;
+	height: 500px;
+	background-color: #f8f9fa;
+	padding: 10px;
+  }
