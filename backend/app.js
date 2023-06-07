@@ -22,7 +22,7 @@ app.post("/guardar-datos", (req, res) => {
 });
 
 app.post('/guardar-svg', (req, res) => {
-  const data = req.body; // Obtener los datos enviados en el cuerpo de la solicitud
+  const datos = req.body; // Obtener los datos enviados en el cuerpo de la solicitud
 
     // Enviar los datos actualizados a home.html
   enviarDatosADocumentoPadre();
