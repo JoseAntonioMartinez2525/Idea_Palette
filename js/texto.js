@@ -11,5 +11,6 @@ class CustomTexto {
     noFill();
     text(this.texto, this.x, this.y);
   }
+  
 }
 

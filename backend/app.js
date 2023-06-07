@@ -10,6 +10,7 @@ app.use(express.static(path.join(__dirname, "../")));
 
 const drawings = [];
 
+
 app.post("/guardar-datos", (req, res) => {
   const datos = req.body;
   drawings.push(datos); // Agregar los datos al arreglo "drawings"
@@ -18,6 +19,15 @@ app.post("/guardar-datos", (req, res) => {
   enviarDatosADocumentoPadre();
 
   res.sendStatus(200); // Enviar una respuesta exitosa al cliente
+});
+
+app.post('/guardar-svg', (req, res) => {
+  const data = req.body; // Obtener los datos enviados en el cuerpo de la solicitud
+
+    // Enviar los datos actualizados a home.html
+  enviarDatosADocumentoPadre();
+  // Responder con un mensaje de éxito o error
+  res.json({ message: 'Datos guardados exitosamente' });
 });
 
 // Función para enviar los datos de "drawings" a home.html

@@ -17,6 +17,8 @@ class CustomRectangle {
   setStrokeColor(color) {
     this.strokeColor = color;
   }
+
+  
 }
 
 

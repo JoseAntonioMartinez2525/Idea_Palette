@@ -12,4 +12,7 @@ class CustomEllipse {
     fill(this.color);
     ellipse(this.x, this.y, this.width, this.height);
   }
+  
+  
+
 }

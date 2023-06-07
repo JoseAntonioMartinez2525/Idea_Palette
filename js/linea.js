@@ -11,4 +11,6 @@ class CustomLine {
     stroke(this.strokeColor); // Aplicar el color del contorno
     line(this.x1, this.y1, this.x2, this.y2);
   }
+
+  
 }

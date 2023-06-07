@@ -32,27 +32,48 @@
 
     <center>
         <div class="slide-card">
-        
+            
         </div>
-        <div id="proyectosContainer"></div>
+ <div id="proyectosContainer"></div>   
     </center>
 
     <script>
 
     // Función para enviar una solicitud al servidor para obtener los datos actualizados
-       function obtenerDatosActualizados() {
-            fetch('/obtener-datos')
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Datos actualizados:', data);
-                    // Actualizar la lista de proyectos en el contenedor
-                    var proyectosContainer = document.getElementById('proyectosContainer');
-                    proyectosContainer.innerHTML = ''; // Limpiar el contenedor antes de actualizar los proyectos
-                })
-                .catch(error => {
-                    console.error('Error al obtener los datos:', error);
+    function obtenerDatosActualizados() {
+        fetch('/obtener-datos')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Datos actualizados:', data);
+                // Actualizar la lista de proyectos en el contenedor
+                var proyectosContainer = document.getElementById('proyectosContainer');
+                proyectosContainer.innerHTML = ''; // Limpiar el contenedor antes de actualizar los proyectos
+
+                // Generar las tarjetas deslizantes
+                data.forEach(proyecto => {
+                    var tarjeta = document.createElement('div');
+                    tarjeta.classList.add('tarjeta'); // Agrega una clase para estilizar la tarjeta
+
+                    // Agrega contenido a la tarjeta (por ejemplo, título y descripción del proyecto)
+                    var titulo = document.createElement('h3');
+                    titulo.textContent = proyecto.titulo;
+                    tarjeta.appendChild(titulo);
+
+                    var descripcion = document.createElement('p');
+                    descripcion.textContent = proyecto.descripcion;
+                    tarjeta.appendChild(descripcion);
+
+                    // Agrega la tarjeta al contenedor de slide card
+                    proyectosContainer.appendChild(tarjeta);
+                    
                 });
-        }
+            })
+            .catch(error => {
+                console.error('Error al obtener los datos:', error);
+            });
+    }
+
+
 
     </script>
 </body>

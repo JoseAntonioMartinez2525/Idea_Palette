@@ -61,7 +61,7 @@
         Nuevo</button>
       </li>
       <li class="list-group-item">     
-    <button onclick="guardar()">
+    <button onclick="guardar();">
       <img src="img/save.png">
       Guardar</button>
       </li>
@@ -81,7 +81,7 @@
     let textosArray = [];
     let inputText;
     let selectedColor = 0;
-
+    let svgArray = [];
       window.addEventListener('DOMContentLoaded', (event) => {
           updateParamList();
         });
@@ -166,41 +166,46 @@
       
     }
 
-    function mouseReleased() {
-      endX = mouseX;
-      endY = mouseY;
-      dragging = false;
+  function mouseReleased() {
+    endX = mouseX;
+    endY = mouseY;
+    dragging = false;
 
-      if (selectedTool === "rect") {
-        let width = endX - startX;
-        let height = endY - startY;
+    if (selectedTool === "rect") {
+      let width = endX - startX;
+      let height = endY - startY;
 
-        if (width !== 0 && height !== 0) {
-          let newRect = new CustomRectangle(startX, startY, width, height, selectedColor);
-          rectanglesArray.push(newRect);
-        }
+      if (width !== 0 && height !== 0) {
+        let newRect = new CustomRectangle(startX, startY, width, height, selectedColor);
+        rectanglesArray.push(newRect);
+        exportToSVG(); // Exportar el lienzo a SVG
       }
-
-      if (selectedTool === "line") {
-        let newLine = new CustomLine(startX, startY, endX, endY, selectedColor);
-        linesArray.push(newLine);
-      }
-
-      if (selectedTool === "circle") {
-        let radius = dist(startX, startY, endX, endY);
-        let diameter = radius * 2;
-        let newEllipse = new CustomEllipse(startX, startY, diameter, diameter, selectedColor);
-        ellipsesArray.push(newEllipse);
-      }
-
-      if (selectedTool === "text") {
-        let newTexto = new CustomTexto(currentText, startX, startY, selectedColor);
-        textosArray.push(newTexto);
-        currentText = ""; // Reiniciar el texto actual
-      }
-
-      updateParamList();
     }
+
+    if (selectedTool === "line") {
+      let newLine = new CustomLine(startX, startY, endX, endY, selectedColor);
+      linesArray.push(newLine);
+      exportToSVG(); // Exportar el lienzo a SVG
+    }
+
+    if (selectedTool === "circle") {
+      let radius = dist(startX, startY, endX, endY);
+      let diameter = radius * 2;
+      let newEllipse = new CustomEllipse(startX, startY, diameter, diameter, selectedColor);
+      ellipsesArray.push(newEllipse);
+      exportToSVG(); // Exportar el lienzo a SVG
+    }
+
+    if (selectedTool === "text") {
+      let newTexto = new CustomTexto(currentText, startX, startY, selectedColor);
+      textosArray.push(newTexto);
+      exportToSVG(); // Exportar el lienzo a SVG
+      currentText = ""; // Reiniciar el texto actual   
+    }
+
+    updateParamList();
+  }
+
 
     function mousePressed() {
       startX = mouseX;
@@ -262,7 +267,6 @@
       });
 
       // Datos parámetros de la figura guardada
-
       console.log(contenido);
         fetch("/guardar-datos", {
         method: "POST",
@@ -274,15 +278,35 @@
         .then(response => {
           if (response.ok) {
             console.log("Datos guardados exitosamente");
+
+            // Aquí comienza la segunda solicitud Fetch para los datos SVG
+            
+
+            fetch("/guardar-svg", {
+              method: "POST",
+              headers: {
+                "Content-Type": "image/svg+xml"
+              },
+              body: svgData
+            })
+              .then(response => {
+                if (response.ok) {
+                  console.log("Datos SVG guardados exitosamente");
+                } else {
+                  console.log("Error al guardar los datos SVG");
+                }
+              })
+              .catch(error => {
+                console.log("Error en la solicitud de datos SVG:", error);
+              });
           } else {
-            console.log("Error al guardar los datos");
+            console.log("Error al guardar los datos JSON");
           }
         })
-        .catch(error => {
-          console.log("Error en la solicitud:", error);
-        });
+          .catch(error => {
+            console.log("Error en la solicitud de datos JSON:", error);
+          });
 
-      
     }
 
     function nuevo() {
@@ -406,6 +430,55 @@
       window.dispatchEvent(event);
     }
 
+  function exportToSVG() {
+    let svg = '<svg xmlns="http://www.w3.org/2000/svg" width="650" height="500">';
+
+    for (let rect of rectanglesArray) {
+      svg += `<rect x="${rect.startX}" y="${rect.startY}" width="${rect.endX - rect.startX}" height="${rect.endY - rect.startY}" stroke="black" fill="${rect.color}"/>`;
+    }
+
+    // Agregar las líneas al SVG
+    for (let line of linesArray) {
+      svg += `<line x1="${line.startX}" y1="${line.startY}" x2="${line.endX}" y2="${line.endY}" stroke="black" fill="${line.color}"/>`;
+    }
+
+    // Agregar las elipses al SVG
+    for (let ellipse of ellipsesArray) {
+      let radius = dist(ellipse.startX, ellipse.startY, ellipse.endX, ellipse.endY);
+      let diameter = radius * 2;
+      svg += `<ellipse cx="${ellipse.startX}" cy="${ellipse.startY}" rx="${diameter}" ry="${diameter}" stroke="black" fill="${ellipse.color}"/>`;
+    }
+
+    // Agregar los textos al SVG
+    for (let texto of textosArray) {
+      svg += `<text x="${texto.x}" y="${texto.y}" fill="${texto.color}">${texto.text}</text>`;
+    }
+
+   svgArray.push(svg);
+
+    // Guardar svg como imagen
+    let canvas = document.createElement('canvas');
+    let context = canvas.getContext('2d');
+
+    let image = new Image();
+    image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+
+    image.onload = function () {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.width = image.width;
+      canvas.height = image.height;
+      context.drawImage(image, 0, 0);
+
+      // Guardar como imagen
+      let link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'imagen.png';
+      link.click();
+    };
+  }
+
+
+      
 
   </script>
 
