@@ -3,17 +3,27 @@
 <head>
   <title>Lienzo</title>
   <meta charset="UTF-8" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js"></script> 
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-  <script src="./js/rect.js"></script>
-  <script src="./js/linea.js"></script>
-  <script src="./js/elipse.js"></script>
-  <script src="./js/texto.js"></script>
-  <link rel="stylesheet" href="./css/main.css">
-  <script src="https://kit.fontawesome.com/e72e299160.js" crossorigin="anonymous"></script>
+      <!-- Se importan las librerías necesarias para utilizar los métodos de p5.js -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+      
+      <!-- Se importa la librería canvg para convertir el canvas en formato svg -->
+      <script src="https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js"></script>
+      
+      <!-- Se importa la librería html2canvas para convertir el canvas en formato imagen -->
+      <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+      
+      <!-- Se importan los archivos js de las figuras a utilizar -->
+      <script src="./js/rect.js"></script>
+      <script src="./js/linea.js"></script>
+      <script src="./js/elipse.js"></script>
+      <script src="./js/texto.js"></script>
+      
+      <!-- Se importa el archivo css de estilos -->
+      <link rel="stylesheet" href="./css/main.css">
+      
+      <!-- Se importa la librería FontAwesome para utilizar sus íconos -->
+      <script src="https://kit.fontawesome.com/e72e299160.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -85,12 +95,16 @@
       window.addEventListener('DOMContentLoaded', (event) => {
           updateParamList();
         });
+
+    /* <!-- Se define la función selectTool() para actualizar la variable selectedTool con el valor del botón clickeado --> */  
     function selectTool(tool) {
       selectedTool = tool;
       
     }
 
-    function setup() {
+/*     < !--Se define la función setup() para crear el canvas de 650x500 pixeles y asignar los métodos selectTool() a los botones correspondientes-- >
+ */   
+ function setup() {
       let canvas = createCanvas(650, 500);
       canvas.parent("canvas-container");
 
@@ -110,7 +124,8 @@
       });
     }
 
-    function draw() {
+      /*< !--Se define la función draw() para dibujar las figuras en el canvas correspondiente-- >*/    
+      function draw() {
       background(220);
 
       // Dibujar las líneas
@@ -166,10 +181,14 @@
       
     }
 
+  //Funcion cuando se suelta el mouse
   function mouseReleased() {
     endX = mouseX;
     endY = mouseY;
-    dragging = false;
+    dragging = false; //si se esta arrastrando el mouse
+
+/*     condicionales deacuerdo a las figuras seleccionadas, se agrega cada elemento de la figura al arreglo 
+    correspondiente y se envia a la funcion exportToSVG */
 
     if (selectedTool === "rect") {
       let width = endX - startX;
@@ -178,14 +197,14 @@
       if (width !== 0 && height !== 0) {
         let newRect = new CustomRectangle(startX, startY, width, height, selectedColor);
         rectanglesArray.push(newRect);
-        exportToSVG(); // Exportar el lienzo a SVG
+        exportToSVG(); // Exportar la figura a SVG
       }
     }
 
     if (selectedTool === "line") {
       let newLine = new CustomLine(startX, startY, endX, endY, selectedColor);
       linesArray.push(newLine);
-      exportToSVG(); // Exportar el lienzo a SVG
+      exportToSVG(); // Exportar la figura a SVG
     }
 
     if (selectedTool === "circle") {
@@ -193,26 +212,27 @@
       let diameter = radius * 2;
       let newEllipse = new CustomEllipse(startX, startY, diameter, diameter, selectedColor);
       ellipsesArray.push(newEllipse);
-      exportToSVG(); // Exportar el lienzo a SVG
+      exportToSVG(); // Exportar la figura a SVG
     }
 
     if (selectedTool === "text") {
       let newTexto = new CustomTexto(currentText, startX, startY, selectedColor);
       textosArray.push(newTexto);
-      exportToSVG(); // Exportar el lienzo a SVG
+      exportToSVG(); // Exportar la figura a SVG
       currentText = ""; // Reiniciar el texto actual   
     }
 
     updateParamList();
   }
 
-
+    //funcion cuando el mouse esta presionado
     function mousePressed() {
       startX = mouseX;
       startY = mouseY;
       dragging = true;
     }
 
+    //genera el texto para escoger un color de relleno
     function generarTexto() {
       var checkbox = document.getElementById("fill-color");
       var elemento = document.getElementById("textoGenerado");
@@ -240,6 +260,7 @@
       }
     }
 
+    //cambia el contorno de una figura
     function updateStrokeColor() {
       for (let rect of rectanglesArray) {
         rect.strokeColor = selectedColor;
@@ -258,6 +279,7 @@
       }
     }
 
+    //guarda los datos 
     function guardar() {
       let contenido = JSON.stringify({
         rectangles: rectanglesArray,
@@ -279,9 +301,7 @@
           if (response.ok) {
             console.log("Datos guardados exitosamente");
 
-            // Aquí comienza la segunda solicitud Fetch para los datos SVG
-            
-
+            //segunda solicitud Fetch para los datos SVG
             fetch("/guardar-svg", {
               method: "POST",
               headers: {
@@ -309,12 +329,16 @@
 
     }
 
+    //reinicia el lienzo
     function nuevo() {
       rectanglesArray = [];
       linesArray = [];
       ellipsesArray = [];
       textosArray = [];
     }
+
+/*  Genera un textArea, del cual se escribe primero un texto. Luego se puede arrastrae este elemento a cualquier parte
+    del canvas y al soltarlo se queda plasmado el texto escrito */
 
   function crearTexto() {
     selectedTool = "text"; // Establecer la herramienta seleccionada en "text"
@@ -381,6 +405,7 @@
     textarea.addEventListener("mousedown", handleMouseDown);
   }
 
+  //Actualiza la lista de parámetros en la página
   function updateParamList() {
       let paramList = document.getElementById("param-list");
       paramList.innerHTML = ""; // Limpiar la lista antes de agregar nuevos elementos
@@ -417,14 +442,16 @@
       }
     }
 
-  function getProyectos() {
     // Obtiene los proyectos guardados del almacenamiento local
+  function getProyectos() {
+    
     const proyectosGuardados = JSON.parse(localStorage.getItem("proyectos"));
 
   }
 
+    // Dispara un evento personalizado llamado "proyectosActualizados"
   function enviarProyectos(proyectos) {
-      // Dispara un evento personalizado llamado "proyectosActualizados"
+      
       // y pasa los proyectos como detalle del evento
       const event = new CustomEvent("proyectosActualizados", { detail: proyectos });
       window.dispatchEvent(event);
@@ -433,6 +460,7 @@
   function exportToSVG() {
     let svg = '<svg xmlns="http://www.w3.org/2000/svg" width="650" height="500">';
 
+    //Agrega los rectangulos al svg
     for (let rect of rectanglesArray) {
       svg += `<rect x="${rect.startX}" y="${rect.startY}" width="${rect.endX - rect.startX}" height="${rect.endY - rect.startY}" stroke="black" fill="${rect.color}"/>`;
     }
@@ -477,8 +505,6 @@
     };
   }
 
-
-      
 
   </script>
 
