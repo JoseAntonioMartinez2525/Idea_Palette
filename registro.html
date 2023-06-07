@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/createUser.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
     </style>
     <title>Registro</title>
 </head>
+
 <body>
     <main>
         <img src="./img/img.png" class="img">
@@ -20,25 +23,31 @@
         <div class="login">Registro De Usuario</div>
         <form id="loginForm" method="POST" action="home.html">
             <div class="col-5 m-3 p-3" id="innerContainer">
-            <label class="label_register col-12 mt-3">Nombre</label>
-            <input type="text" id="firstName" class="col-9 mt-3" placeholder="Nombre" />
-            <br>
-            <label class="label_register col-12 mt-3 ">Apellido</label>
-            <input type="text" id="lastName" class="col-9 mt-3 "placeholder="Apellido" />
-            <br>
-            <label class="label_register col-12 mt-3 ">Nombre de usuario</label>
-            <input type="text" id="username" class="col-9 mt-3"placeholder="Nombre de usuario" />
-            <br>
-            <label class="label_register col-12 mt-3 ">Contraseña</label>
-            <input type="password" id="password" class="col-9 mt-3" placeholder="Contraseña" autocomplete="current-password" />
-            <br>
-            <button type="submit" class="col-7 mt-4">Iniciar sesión</button>
+                <label class="label_register col-12 mt-3">Nombre</label>
+                <input type="text" id="firstName" class="col-9 mt-3" placeholder="Nombre" />
+                <br>
+                <label class="label_register col-12 mt-3 ">Apellido</label>
+                <input type="text" id="lastName" class="col-9 mt-3 " placeholder="Apellido" />
+                <br>
+                <label class="label_register col-12 mt-3 ">Nombre de usuario</label>
+                <input type="text" id="username" class="col-9 mt-3" placeholder="Nombre de usuario" />
+                <br>
+                <label class="label_register col-12 mt-3 ">Contraseña</label>
+                <input type="password" id="password" class="col-9 mt-3" placeholder="Contraseña"
+                    autocomplete="current-password" />
+                <br>
+                <label class="label_register col-12 mt-3 ">Confirmar contraseña</label>
+                <input type="password" id="password2" class="col-9 mt-3" placeholder="Confirmar contraseña"
+                    autocomplete="current-password" />
+                <br><br>
+                
+                <button type="submit" class="col-7 mt-4">Registrarse</button>
             </div>
         </form>
-        
+
         <label for="text" class="sign">¿No tienes cuenta?</label>
         <a class="register" href="registro.html">Registrate</a>
-        
+
     </section>
     <script>
         document.getElementById("loginForm").addEventListener("submit", function (event) {
@@ -48,8 +57,12 @@
 
         function validarCampos() {
             var contraseña = document.getElementById("password").value;
+            var contraseña2 = document.getElementById("password2").value;
+
             if (contraseña === "") {
                 alert("Debe completar el campo de contraseña.");
+            } else if (contraseña !== contraseña2) {
+                alert("Las contraseñas no coinciden.");
             } else {
                 redirigir();
             }
@@ -60,4 +73,5 @@
         }
     </script>
 </body>
+
 </html>

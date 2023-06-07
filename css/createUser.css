@@ -62,4 +62,8 @@ top: 0px;
     height: 70px;
     background: linear-gradient(90deg, #A448FF -3.78%, #DA48FF 86.08%);
     border-radius: 10px;
+    display: block;
+    margin-left: 40px;
+    width: 70%;
 }
+
