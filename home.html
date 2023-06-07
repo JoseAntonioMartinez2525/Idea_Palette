@@ -34,9 +34,29 @@
     </div>
 
     <script>
-        function mostrarProyectos() {
-            // Aquí puedes agregar la lógica para mostrar los proyectos guardados desde work.html
-        }
+    function mostrarProyectos() {
+        // Llama a la función getProyectos() en work.html para obtener los proyectos guardados
+        window.opener.getProyectos();
+    }
+
+    function enviarProyectos(proyectos) {
+        const slideCard = document.querySelector(".slide-card");
+
+        // Limpia el contenido existente en el div slide-card
+        slideCard.innerHTML = "";
+
+        // Genera el HTML para cada proyecto y agrega al div slide-card
+        proyectos.forEach(proyecto => {
+            const proyectoHTML = `
+      <div class="proyecto">
+        <!-- Agrega aquí el contenido del proyecto, como una imagen o una miniatura -->
+      </div>
+    `;
+            slideCard.innerHTML += proyectoHTML;
+        });
+    }
+
+
     </script>
 </body>
 

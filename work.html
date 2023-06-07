@@ -222,7 +222,7 @@
 
         inputColor.addEventListener("input", function () {
           selectedColor = inputColor.value;
-          updateStrokeColor();
+          //updateStrokeColor();
         });
 
         elemento.appendChild(labelColor);
@@ -230,7 +230,7 @@
       } else {
         elemento.innerHTML = "";
         selectedColor = 0;
-        updateStrokeColor();
+        //updateStrokeColor();
       }
     }
 
@@ -260,9 +260,26 @@
         texts: textosArray
       });
 
-      // Aquí puedes hacer algo con el contenido JSON, como enviarlo al servidor o guardarlo en un archivo.
+      // Datos parámetros de la figura guadrada
 
       console.log(contenido);
+        fetch("/guardar-datos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: contenido
+      })
+        .then(response => {
+          if (response.ok) {
+            console.log("Datos guardados exitosamente");
+          } else {
+            console.log("Error al guardar los datos");
+          }
+        })
+        .catch(error => {
+          console.log("Error en la solicitud:", error);
+        });
 
       
     }
@@ -375,6 +392,18 @@
       }
     }
 
+    function getProyectos() {
+        fetch("/obtener-proyectos")
+          .then(response => response.json())
+          .then(data => {
+            // Almacena los proyectos en una variable para enviarlos a home.html
+            const proyectos = data;
+            enviarProyectos(proyectos); // Llama a la función en home.html para mostrar los proyectos
+          })
+          .catch(error => {
+            console.log("Error al obtener los proyectos:", error);
+          });
+      }
 
 
   </script>

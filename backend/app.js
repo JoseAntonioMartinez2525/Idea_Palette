@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const bodyParser = require("body-parser");
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../")));
@@ -10,7 +11,7 @@ const drawings = [];
 
 app.post("/guardar-datos", (req, res) => {
   const datos = req.body;
-  drawings.push(datos); // Agregar los datos al ArrayList
+  drawings.push(datos); // Agregar los datos al arreglo "drawings"
   res.sendStatus(200); // Enviar una respuesta exitosa al cliente
 });
 
