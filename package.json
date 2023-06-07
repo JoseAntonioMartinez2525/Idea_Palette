@@ -8,6 +8,7 @@
     "node.js": "^0.0.1-security",
     "open": "^9.1.0",
     "open-cli": "^7.2.0",
+    "socket.io": "^4.6.2",
     "svg.js": "^2.7.1"
   }
 }

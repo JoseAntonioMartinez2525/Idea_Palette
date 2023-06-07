@@ -1,6 +1,7 @@
 <html>
 
 <head>
+  <title>Lienzo</title>
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -392,18 +393,18 @@
       }
     }
 
-    function getProyectos() {
-        fetch("/obtener-proyectos")
-          .then(response => response.json())
-          .then(data => {
-            // Almacena los proyectos en una variable para enviarlos a home.html
-            const proyectos = data;
-            enviarProyectos(proyectos); // Llama a la función en home.html para mostrar los proyectos
-          })
-          .catch(error => {
-            console.log("Error al obtener los proyectos:", error);
-          });
-      }
+  function getProyectos() {
+    // Obtiene los proyectos guardados del almacenamiento local
+    const proyectosGuardados = JSON.parse(localStorage.getItem("proyectos"));
+
+  }
+
+  function enviarProyectos(proyectos) {
+      // Dispara un evento personalizado llamado "proyectosActualizados"
+      // y pasa los proyectos como detalle del evento
+      const event = new CustomEvent("proyectosActualizados", { detail: proyectos });
+      window.dispatchEvent(event);
+    }
 
 
   </script>

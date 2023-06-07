@@ -5,57 +5,54 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas</title>
+    <title>Proyectos</title>
     <link rel="stylesheet" href="./css/home.css">
-    
+    <script src="https://kit.fontawesome.com/e72e299160.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <div class="container">
         <section class="tools">
+        <div class="logo">🎨 Idea Palette</div>
+        
             <div class="row">
+               <i class="fa-regular fa-circle-user"></i> 
                 <label class="title">Mis Proyectos</label>
             </div>
-        </section>
-        <section class="dibujar">
-
-        </section>
-    </div>
-
-    <div class="slide-card">
-        <!-- Aquí puedes colocar las imágenes de los proyectos recientes -->
-    </div>
-
+        
     <div class="menu-plegable">
         <ul>
             <li><a href="work.html">Crear nuevo proyecto</a></li>
-            <li><a href="#" onclick="mostrarProyectos()">Ver Proyectos</a></li>
+            <li><a href="#" onclick="obtenerDatosActualizados()" >Ver Proyectos</a></li>
         </ul>
+        
+    </div></section>
     </div>
+        
+
+    <center>
+        <div class="slide-card">
+        
+        </div>
+        <div id="proyectosContainer"></div>
+    </center>
 
     <script>
-    function mostrarProyectos() {
-        // Llama a la función getProyectos() en work.html para obtener los proyectos guardados
-        window.opener.getProyectos();
-    }
 
-    function enviarProyectos(proyectos) {
-        const slideCard = document.querySelector(".slide-card");
-
-        // Limpia el contenido existente en el div slide-card
-        slideCard.innerHTML = "";
-
-        // Genera el HTML para cada proyecto y agrega al div slide-card
-        proyectos.forEach(proyecto => {
-            const proyectoHTML = `
-      <div class="proyecto">
-        <!-- Agrega aquí el contenido del proyecto, como una imagen o una miniatura -->
-      </div>
-    `;
-            slideCard.innerHTML += proyectoHTML;
-        });
-    }
-
+    // Función para enviar una solicitud al servidor para obtener los datos actualizados
+       function obtenerDatosActualizados() {
+            fetch('/obtener-datos')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Datos actualizados:', data);
+                    // Actualizar la lista de proyectos en el contenedor
+                    var proyectosContainer = document.getElementById('proyectosContainer');
+                    proyectosContainer.innerHTML = ''; // Limpiar el contenedor antes de actualizar los proyectos
+                })
+                .catch(error => {
+                    console.error('Error al obtener los datos:', error);
+                });
+        }
 
     </script>
 </body>

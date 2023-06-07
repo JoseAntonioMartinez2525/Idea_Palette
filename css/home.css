@@ -1,0 +1,69 @@
+.slide-card {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    width: 600px;
+    padding-left: 100px;
+   
+}
+
+.proyecto {
+    flex: 0 0 auto;
+    width: 300px;
+    height: 200px;
+    margin-right: 10px;
+    scroll-snap-align: start;
+}
+
+
+.menu-plegable  {
+    font-size: 20px;
+    margin-bottom: 20px;
+    
+}
+
+.container{
+    width: 200px;
+    height: 100vh;
+    background-color: #f8f9fa;
+    position: fixed;
+    left: 20px;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
+.menu-plegable ul {
+    list-style-type: none;
+    /* Eliminar viñetas */
+    padding: 0;
+    margin: 0;
+}
+
+.menu-plegable li {
+    margin-bottom: 10px;
+}
+
+.menu-plegable a {
+    color: black;
+    /* Cambiar el color del enlace */
+    text-decoration: none;
+    /* Quitar subrayado */
+}
+
+.tools .row {
+    margin-bottom: 10px;
+    
+}
+
+.logo{
+    font-size: 20px;
+    font-weight: 400;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+
