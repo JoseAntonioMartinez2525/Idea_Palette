@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="./css/main.css">
   <script src="https://kit.fontawesome.com/e72e299160.js" crossorigin="anonymous"></script>
 </head>
-
+<!--  -->
 <body>
 <div class="sidebar">
   <div>
@@ -296,7 +296,7 @@
               headers: {
                 "Content-Type": "image/svg+xml"
               },
-              body: svgData
+              body: contenido
             })
               .then(response => {
                 if (response.ok) {
@@ -450,7 +450,8 @@
     let svg = '<svg xmlns="http://www.w3.org/2000/svg" width="650" height="500">';
 
     for (let rect of rectanglesArray) {
-      svg += `<rect x="${rect.startX}" y="${rect.startY}" width="${rect.endX - rect.startX}" height="${rect.endY - rect.startY}" stroke="black" fill="${rect.color}"/>`;
+      svg += `<rect x="${rect.startX}" y="${rect.startY}" width="${rect.endX - rect.startX}" height="${rect.endY - rect.startY}"
+       stroke="black" fill="${rect.color}"/>`;
     }
 
     // Agregar las líneas al SVG
@@ -491,6 +492,7 @@
       link.download = 'imagen.png';
       link.click();
     };
+    return svg;
   }
 
 
