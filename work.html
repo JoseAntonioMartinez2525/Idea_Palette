@@ -1,5 +1,4 @@
-<html>
-
+<!DOCTYPE html>
 <head>
   <title>Lienzo</title>
   <meta charset="UTF-8" />
@@ -52,7 +51,7 @@
       </li>
       <li class="list-group-item">
         <button onclick="crearTexto('text')">
-          <img src="img/rename_inputtext_thetext_1544.png" id="text-tool"">Texto
+          <img src="img/rename_inputtext_thetext_1544.png" id="text-tool"> Texto
         </button>
       </li>
       <li class="list-group-item">
@@ -289,9 +288,8 @@
             console.log("Datos guardados exitosamente");
 
             // Aquí comienza la segunda solicitud Fetch para los datos SVG
-            
 
-            fetch("/guardar-svg", {
+            /* fetch("/guardar-svg", {
               method: "POST",
               headers: {
                 "Content-Type": "image/svg+xml"
@@ -308,13 +306,14 @@
               .catch(error => {
                 console.log("Error en la solicitud de datos SVG:", error);
               });
+              */
           } else {
             console.log("Error al guardar los datos JSON");
           }
         })
           .catch(error => {
             console.log("Error en la solicitud de datos JSON:", error);
-          });
+          }); 
 
     }
 
@@ -508,4 +507,4 @@
 
 </body>
 
-</html>
+<!DOCTYPE html>

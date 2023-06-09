@@ -4,12 +4,16 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
+const multer = require("multer");
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../")));
 
 const drawings = [];
 
+// Configurar multer para manejar la carga de archivos Blob
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 app.post("/guardar-datos", (req, res) => {
   const datos = req.body;
@@ -21,21 +25,13 @@ app.post("/guardar-datos", (req, res) => {
   res.sendStatus(200); // Enviar una respuesta exitosa al cliente
 });
 
-app.post('/guardar-svg', (req, res) => {
-  const datos = req.body; // Obtener los datos enviados en el cuerpo de la solicitud
-
-    // Enviar los datos actualizados a home.html
-  enviarDatosADocumentoPadre();
-  // Responder con un mensaje de éxito o error
-  res.json({ message: 'Datos guardados exitosamente' });
-});
 
 // Función para enviar los datos de "drawings" a home.html
 function enviarDatosADocumentoPadre() {
   const datos = JSON.stringify(drawings);
 
   // Enviar los datos al cliente utilizando postMessage()
-  io.emit('datosActualizados', datos);
+  io.emit("datosActualizados", datos);
 }
 
 app.get("/obtener-datos", (req, res) => {
