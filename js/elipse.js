@@ -13,6 +13,15 @@ class CustomEllipse {
     ellipse(this.x, this.y, this.width, this.height);
   }
   
+    getParams() {
+    return {
+      x: this.x,
+      y: this.y,
+      width: this.width,
+      height: this.height,
+      strokeColor: this.strokeColor
+    };
+  }
   
 
 }

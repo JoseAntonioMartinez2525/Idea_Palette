@@ -209,6 +209,7 @@
     }
 
     updateParamList();
+    
   }
 
     //cuando se arrastra la figura
@@ -396,40 +397,46 @@
 
   //Actualiza los parametros del lienzo
   function updateParamList() {
-      let paramList = document.getElementById("param-list");
-      paramList.innerHTML = ""; // Limpiar la lista antes de agregar nuevos elementos
+    let paramList = document.getElementById("param-list");
+    paramList.innerHTML = ""; // Limpiar la lista antes de agregar nuevos elementos
 
-      // Obtener la figura seleccionada
-      let selectedShape = null;
+    // Obtener la figura seleccionada
+    let selectedShape = null;
 
-      if (selectedTool === "rect" && rectanglesArray.length > 0) {
-        selectedShape = rectanglesArray[rectanglesArray.length - 1];
-      } else if (selectedTool === "line" && linesArray.length > 0) {
-        selectedShape = linesArray[linesArray.length - 1];
-      } else if (selectedTool === "circle" && ellipsesArray.length > 0) {
-        selectedShape = ellipsesArray[ellipsesArray.length - 1];
-      } else if (selectedTool === "text" && textosArray.length > 0) {
-        selectedShape = textosArray[textosArray.length - 1];
-      }
+    if (selectedTool === "rect" && rectanglesArray.length > 0) {
+      selectedShape = rectanglesArray[rectanglesArray.length - 1];
+    } else if (selectedTool === "line" && linesArray.length > 0) {
+      selectedShape = linesArray[linesArray.length - 1];
+    } else if (selectedTool === "circle" && ellipsesArray.length > 0) {
+      selectedShape = ellipsesArray[ellipsesArray.length - 1];
+    } else if (selectedTool === "text" && textosArray.length > 0) {
+      selectedShape = textosArray[textosArray.length - 1];
+    }
 
-      // Agregar los parámetros de la figura seleccionada a la lista
-      if (selectedShape) {
-        let params = [
-          { name: "x", value: selectedShape.x },
-          { name: "y", value: selectedShape.y },
-          { name: "width", value: selectedShape.width },
-          { name: "height", value: selectedShape.height },
-          { name: "strokeColor", value: selectedShape.strokeColor },
-          { name: "color", value: selectedShape.color }
-        ];
+    // Mostrar los parámetros de la figura seleccionada
+    if (selectedShape) {
+      let params = selectedShape.getParams();
 
-        for (let param of params) {
-          let listItem = document.createElement("li");
-          listItem.textContent = `${param.name}: ${param.value}`;
-          paramList.appendChild(listItem);
+      for (let param in params) {
+        let value = params[param];
+
+        if (value !== undefined) {
+          let paramItem = document.createElement("div");
+          let paramLabel = document.createElement("label");
+          let paramValue = document.createElement("span");
+
+          paramLabel.textContent = param + ": ";
+          paramValue.textContent = value;
+
+          paramItem.appendChild(paramLabel);
+          paramItem.appendChild(paramValue);
+
+          paramList.appendChild(paramItem);
         }
       }
     }
+  }
+
 
   function getProyectos() {
     // Obtiene los proyectos guardados del almacenamiento local
@@ -494,7 +501,12 @@
     return svg;
   }
 
-
+  function reiniciar(){
+    startX = 0;
+    startY = 0;
+    endX = 0;
+    endY = 0;
+  }
   </script>
 
 

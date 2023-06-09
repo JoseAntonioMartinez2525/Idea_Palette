@@ -12,5 +12,13 @@ class CustomLine {
     line(this.x1, this.y1, this.x2, this.y2);
   }
 
-  
+    getParams() {
+    return {
+      x: this.x,
+      y: this.y,
+      width: this.width,
+      height: this.height,
+      strokeColor: this.strokeColor
+    };
+  }
 }

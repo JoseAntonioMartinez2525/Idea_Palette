@@ -12,5 +12,14 @@ class CustomTexto {
     text(this.texto, this.x, this.y);
   }
   
+    getParams() {
+    return {
+      x: this.x,
+      y: this.y,
+      width: this.width,
+      height: this.height,
+      strokeColor: this.strokeColor
+    };
+  }
 }
 

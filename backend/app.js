@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const bodyParser = require("body-parser");
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 const multer = require("multer");
